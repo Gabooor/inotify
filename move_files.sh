@@ -80,56 +80,55 @@ elif [[ "$changed" == *"CLOSE_NOWRITE,CLOSE output_path"* ]] && [ "$second_open"
 	first_close=true
 elif [[ "$changed" == *"CLOSE_WRITE,CLOSE $mid_folder"* ]] && [ "$first_close" == "true" ]; then # másolás befejeződött
 	to_prefix='CLOSE_WRITE,CLOSE '
-        to_filename=${changed#"$to_prefix"} # /media/STORE/InSAR4HU_MID/XYZ.shp
-        new_filename="${to_filename%/*}" # /media/STORE/InSAR4HU_MID
-        file_type=${to_filename: -3}
-        if [ "$file_type" == "sml" ]; then
-                new_filename="$new_filename/$output_folder.shp.sml" # /media/STORE/InSAR4HU_MID/P01_OUT_051.shp.sml
-        else
-                new_filename="$new_filename/$output_folder.$file_type" # /media/STORE/InSAR4HU_MID/P01_OUT_051.shp
-        fi
-        if [ "$to_filename" != "$new_filename" ]; then
-                mv $to_filename $new_filename # átnevezés
-                case $counter in
-                        0) file1=$new_filename;;
-                        1) file2=$new_filename;;
-                        2) file3=$new_filename;;
-                        3) file4=$new_filename;;
-                        4) file5=$new_filename;;
-                esac
+	to_filename=${changed#"$to_prefix"} # /media/STORE/InSAR4HU_MID/XYZ.shp
+	new_filename="${to_filename%/*}" # /media/STORE/InSAR4HU_MID
+	file_type=${to_filename: -3}
+	if [ "$file_type" == "sml" ]; then
+			new_filename="$new_filename/$output_folder.shp.sml" # /media/STORE/InSAR4HU_MID/P01_OUT_051.shp.sml
+	else
+			new_filename="$new_filename/$output_folder.$file_type" # /media/STORE/InSAR4HU_MID/P01_OUT_051.shp
+	fi
+	if [ "$to_filename" != "$new_filename" ]; then
+		mv $to_filename $new_filename # átnevezés
+		case $counter in
+				0) file1=$new_filename;;
+				1) file2=$new_filename;;
+				2) file3=$new_filename;;
+				3) file4=$new_filename;;
+				4) file5=$new_filename;;
+		esac
 		echo "File1: $file1"
 		echo "File2: $file2"
 		echo "File3: $file3"
 		echo "File4: $file4"
 		echo "File5: $file5"
-	        if [ $counter == 4 ]; then
-			case "${output_folder:0:3}" in
-				"P01") 
-					loadfiles "${input_path}RHK/UC04RHK"
-	                                resetvariables;;
-				"P02")
-	                                loadfiles "${input_path}BVH/UC08BVH"
-        	                        loadfiles "${input_path}BKV/UC17BKV"
-                	                resetvariables;;
-                        	"P03")
-	                                loadfiles "${input_path}LAF/UC12LAF"
-        	                        loadfiles "${input_path}LAF/UC13LAF"
-                	                loadfiles "${input_path}LAF/UC14LAF"
-                        	        loadfiles "${input_path}LAF/UC20LAF"
-                               		loadfiles "${input_path}LAF/UC21LAF"
-                                	resetvariables;;
-                        	"P04")
-                                	loadfiles "${input_path}BKV/UC18BKV"
-                                	resetvariables;;
-                        	"P05")
-                                	loadfiles "${input_path}BKV/UC19BKV"
-                                	resetvariables;;
-                	esac
+		if [ $counter == 4 ]; then
+		case "${output_folder:0:3}" in
+			"P01") 
+				loadfiles "${input_path}RHK/UC04RHK"
+				resetvariables;;
+			"P02")
+				loadfiles "${input_path}BVH/UC08BVH"
+				loadfiles "${input_path}BKV/UC17BKV"
+				resetvariables;;
+			"P03")
+				loadfiles "${input_path}LAF/UC12LAF"
+				loadfiles "${input_path}LAF/UC13LAF"
+				loadfiles "${input_path}LAF/UC14LAF"
+				loadfiles "${input_path}LAF/UC20LAF"
+				loadfiles "${input_path}LAF/UC21LAF"
+				resetvariables;;
+			"P04")
+				loadfiles "${input_path}BKV/UC18BKV"
+				resetvariables;;
+			"P05")
+				loadfiles "${input_path}BKV/UC19BKV"
+				resetvariables;;
+		esac
 		fi
-                else
-                        counter=$((counter+1))
-                fi
-        fi
+	else
+		counter=$((counter+1))
+	fi
 else
         output_folder=''
         first_open=false
